@@ -1,11 +1,15 @@
 #include <SPI.h>
 #include <SD.h>
 
-File myFile;
+#define CS 15   // Номер CS esp
+
+/// @brief 
+/// @param  begin() - номер пина для esp.
+/// @return Статус инициализации SD карты
 
 bool CardReaderInit (void) {
     Serial.print("Init SD Card.");
-      if (!SD.begin(15)) {
+      if (!SD.begin(CS)) {
         return false;
       }
       return true;
