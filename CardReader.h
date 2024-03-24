@@ -3,39 +3,32 @@
 
 #define CS 15   // Номер CS esp
 
+File myFile;
+
 /// @brief 
-/// @param  begin() - номер пина для esp.
+/// @param  begin() - Номер пина для esp.
 /// @return Статус инициализации SD карты
 
 bool CardReaderInit (void) {
-    Serial.print("Init SD Card.");
-      if (!SD.begin(CS)) {
-        return false;
-      }
-      return true;
+  Serial.print("Init SD Card.");
+  if (!SD.begin(CS)) {
+    return false;
+  }
+  return true;
 }
-/*
-myFile = SD.open("test.txt", FILE_WRITE);
 
-  if (myFile) {
-    Serial.print("Writing to test.txt...");
-    myFile.println("testing 1, 2, 3.");
-    myFile.close();
-    Serial.println("done.");
-  } else {
-    Serial.println("error opening test.txt");
-  }
-
-  // re-open the file for reading:
-  myFile = SD.open("test.txt");
-  if (myFile) {
-    Serial.println("test.txt:");
-
-    while (myFile.available()) {
-      Serial.write(myFile.read());
+String ReadSdCardFile (String FileName) {
+  bool check = SD.exists(FileName);
+  if (check) {
+    String buffer;
+    myFile = SD.open(FileName);                //Откроем файл
+    while (myFile.available())                 //Читаем содержимое файла
+    {
+      buffer += myFile.readStringUntil('\n');  //Считываем с карты все данные в строку до символа окончания.
     }
-    myFile.close();
-  } else {
-    Serial.println("error opening test.txt");
-  }
-*/
+    Serial.println(buffer);                    //Для отладки отправляем по UART все что прочитали с карты.
+    myFile.close();                            //Закроем файл
+    return buffer;
+  } 
+  return "File Not exist" ;
+}
