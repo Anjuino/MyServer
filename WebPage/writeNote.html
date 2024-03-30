@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+ <head>
+  <meta charset="utf-8">
+  <title>Control</title>
+  <link rel='stylesheet' href='styles.css'>
+ </head>
+ <body>
+ <ul class="menu-bar">
+  <li><a href="index.html">Главная</a></li>
+  <li><a href="info.html">Информация</a></li>
+  <li><a href="diary.html">Дневник</a></li>
+</ul>
+<h1 align="center">ESP8266 Web Server</h1>
+  <div class="centerLayer">
+  <textarea id="Note"> </textarea>
+  <hr>
+  <button type="button" onclick="sendData()">Записать</button>
+<script>
+function sendData () {
+  var xhttp = new XMLHttpRequest ();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById ("Note"). innerHTML =
+      this.responseText;
+    }
+  };
+ xhttp.open( "GET", "writeNote?Note=" + document.getElementById("Note").value, true);
+ xhttp.send ();
+ document.getElementById("Note").value = ""
+}
+</script>
+  </div>
+ </body>
+</html>
