@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+ <head>
+  <meta charset="utf-8">
+  <title>Control</title>
+  <link rel='stylesheet' href='styles.css'>
+ </head>
+ <body>
+ <ul class="menu-bar">
+  <li><a href="index.html">Главная</a></li>
+  <li><a href="diary.html">Дневник</a></li>
+  <li><a href="#">Что-то еще</a></li>
+</ul>
+<h1 align="center">ESP8266 Web Server</h1>
+  <div class="centerLayer">
+    <span id="adc_val"></span>
+  </div>
+  <script>
+setInterval(function() 
+{
+  getData();
+}, 1000); 
+function getData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("adc_val").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "read", true);
+  xhttp.send();
+}
+</script>
+ </body>
+</html>
