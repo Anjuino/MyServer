@@ -1,9 +1,12 @@
 #include <SPI.h>
 #include <SD.h>
+#include <DS1307RTC.h>
+#include <Time.h>
 
 #define CS 15   // Номер CS esp
 
 File myFile;
+tmElements_t datetime;
 
 /// @brief 
 /// @param  begin() - Номер пина для esp.
@@ -26,9 +29,21 @@ String ReadSdCardFile (String FileName) {
     {
       buffer += myFile.readStringUntil('\n');  //Считываем с карты все данные в строку до символа окончания.
     }
-    Serial.println(buffer);                    //Для отладки отправляем по UART все что прочитали с карты.
+    //Serial.println(buffer);                  //Для отладки отправляем по UART все что прочитали с карты.
     myFile.close();                            //Закроем файл
     return buffer;
   } 
-  return "File Not exist" ;
+  return "File Not exist";
+}
+
+void WriteSdCardFile (String FileName, String Data) {
+  myFile = SD.open(FileName, FILE_WRITE);
+  bool check = SD.exists(FileName);
+  if (check) {
+    myFile.println(String("*****") + RTC.read(datetime) + String("*****"));
+    myFile.println(Data);
+    myFile.println();
+    myFile.close();
+  }
+  //Serial.println("WriteOk");
 }

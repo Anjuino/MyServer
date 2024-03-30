@@ -1,5 +1,9 @@
 #include <CardReader.h>
 #include <MyServer.h>
+#include <Wire.h>	 
+
+
+ADC_MODE(ADC_VCC);
 
 void setup() {
   Serial.begin(115200);
@@ -15,4 +19,6 @@ void setup() {
 
 void loop() {
   server.handleClient();
+  //uint CpuFreg = ESP.getCpuFreqMHz();
+  //int Vcc = ESP.getVcc(); 
 }
