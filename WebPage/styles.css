@@ -1,28 +1,42 @@
+hr {
+  margin: -40px auto 15px;
+	height: 50px;
+	border: none;
+	border-bottom: 4px solid #ffffff;
+}
 button {
+  border: 3px solid #ffffff;
   font-size: 25px;
   padding: 15px 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 40px 40px #070b7e inset, 0 0 0 0 #F137A6;
+  box-shadow: 0 0 40px 40px #02143d inset;
   font-weight: bold;
   letter-spacing: 2px;
   color: white;
   transition: .15s ease-in-out;
 }
 button:hover {
-  box-shadow: 0 0 10px 0 #000000 inset, 0 0 10px 4px #0138ff;
-  color: #000000;
+  box-shadow: 0 0 10px 0 #0142fb00 inset, 0 0 10px 4px #0115ff;
+  color: #0032ff;
 }
 
 textarea { 
+  border: 2px solid #000000;
   resize: none; 
   font-size: 20px;
   color: black;
-  width: 100%;
-  height: 200px;
-  background: #fff8bf;
+  width: 95%;
+  height: 450px;
+  background: #fff28c;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+h1 {
+  color: white;
 }
 body {
-
+  background-color: #000000;
 }
 ul { 
   padding-inline-start: 0; 
@@ -33,17 +47,17 @@ a {
   text-decoration: none
 }
 .centerLayer {
-    position: absolute; /* Абсолютное позиционирование */
-    left: 25%; /* Положение слоя от левого края */
-    right: 25%; /* Положение слоя от верхнего края */
-	background-color: ivory;
+  position: absolute; /* Абсолютное позиционирование */
+  left: 25%; /* Положение слоя от левого края */
+  right: 25%; /* Положение слоя от верхнего края */
 }
 
 .menu-bar {
-  border-radius: 25px;
+  border: 5px solid #ffffff;
+  border-radius: 15px;
   font-size: 30px;
   display: inline-flex;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgb(0 38 129 / 43%);
   align-items: center;
   display: flex;
   justify-content: center;
@@ -55,8 +69,6 @@ a {
   font-weight: bold;
   padding: 20px 50px;
   position: relative;
-  cursor: pointer;
-  white-space: nowrap;
 }
 .menu-bar li::before {
   content: " ";
@@ -72,9 +84,8 @@ a {
   color: #0441ff;
 }
 .menu-bar li:hover::before {
-  background: linear-gradient(to bottom, #645454, #403f3e);
-  box-shadow: 0px 10px 20px 0px blue;
-  transform: scale(1.3);
+  background:white;
+  transform: scale(1.2);
 }
 @media screen and (max-width: 980px ) {
   .menu-bar {
@@ -85,10 +96,8 @@ a {
 	padding: 10px 5px;
   }
   .centerLayer {
-    position: absolute; /* Абсолютное позиционирование */
-    left: 5%; /* Положение слоя от левого края */
-    right: 5%; /* Положение слоя от верхнего края */
-	background-color: ivory;
+  left: 5%; /* Положение слоя от левого края */
+  right: 5%; /* Положение слоя от верхнего края */
   }
   .menu-bar li::before {
 	width: 100%;
@@ -101,5 +110,6 @@ a {
   }
   button {
     font-size: 55px;
+    margin-left: 30%;
   }
 }
