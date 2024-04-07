@@ -47,6 +47,7 @@ a {
   text-decoration: none
 }
 .centerLayer {
+  color: white;
   position: absolute; /* Абсолютное позиционирование */
   left: 25%; /* Положение слоя от левого края */
   right: 25%; /* Положение слоя от верхнего края */

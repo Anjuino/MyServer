@@ -1,12 +1,10 @@
 #include <SPI.h>
 #include <SD.h>
-#include <DS1307RTC.h>
-#include <Time.h>
+
 
 #define CS 15   // Номер CS esp
 
 File myFile;
-tmElements_t datetime;
 
 /// @brief 
 /// @param  begin() - Номер пина для esp.
@@ -36,14 +34,15 @@ String ReadSdCardFile (String FileName) {
   return "File Not exist";
 }
 
-void WriteSdCardFile (String FileName, String Data) {
+void WriteSdCardFile (String Data) {
+  String FileName = RtcTime();
   myFile = SD.open(FileName, FILE_WRITE);
   bool check = SD.exists(FileName);
   if (check) {
-    myFile.println(String("*****") + RTC.read(datetime) + String("*****"));
+    myFile.println(String("*****/////*****"));
     myFile.println(Data);
-    myFile.println();
+    myFile.println(String("*****/////*****"));
     myFile.close();
-  }
-  //Serial.println("WriteOk");
+    Serial.println("WriteOk");
+  } else Serial.println("WriteFail");
 }
