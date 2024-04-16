@@ -18,7 +18,8 @@ bool CardReaderInit (void) {
   return true;
 }
 
-String ReadSdCardFile (String FileName) {
+String ReadSdCardFile (String DirNameIn,String FileNameIn) {
+  String FileName = DirNameIn + FileNameIn;
   bool check = SD.exists(FileName);
   if (check) {
     String buffer;
@@ -35,14 +36,24 @@ String ReadSdCardFile (String FileName) {
 }
 
 void WriteSdCardFile (String Data) {
-  String FileName = RtcTime();
+  String FileName = String ("Diary/") + RtcTime(true);
   myFile = SD.open(FileName, FILE_WRITE);
   bool check = SD.exists(FileName);
   if (check) {
-    myFile.println(String("*****/////*****"));
     myFile.println(Data);
-    myFile.println(String("*****/////*****"));
     myFile.close();
     Serial.println("WriteOk");
   } else Serial.println("WriteFail");
+}
+
+String printDirectory(File dir) {
+  String Note;
+  while (true) {
+    File entry =  dir.openNextFile();
+    if (!entry) {
+      return Note;
+    }
+    Note += String(entry.name()) + String(" ");
+    entry.close();
+  }
 }

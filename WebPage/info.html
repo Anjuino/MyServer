@@ -12,25 +12,19 @@
 </ul>
 <h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
-    <span id="time"></span>
-    <span id="Temp"></span>
-    <span id="Hum"></span>
-    <span id="Pres"></span>
+    <span>Время: </span> <span id="time"></span>                                     <br>
+    <span>Температура: </span> <span id="Temp"></span> <span> °C</span>              <br>
+    <span >Влажность: </span> <span id="Hum"></span>   <span> %</span>               <br>
+    <span >Давление: </span> <span id="Pres"></span>   <span> мм.рт.ст.</span>       <br>
   </div>
   <script>
 setInterval(function() 
 {
-  /*
-  getTime();
-  getTemp();
-  getHum ();
-  getPres();
-  */
   getData ("time", "read");
   getData ("Temp", "temp");
   getData ("Hum" ,  "hum");
   getData ("Pres", "pres");
-}, 30000); 
+}, 10000); 
 
 function getData(In1, In2) {
   var xhttp = new XMLHttpRequest();
@@ -43,52 +37,6 @@ function getData(In1, In2) {
   xhttp.open("GET", In2, true);
   xhttp.send();
 }
-/*
-function getTime() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("time").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "read", true);
-  xhttp.send();
-}
-function getPres() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("Pres").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "pres", true);
-  xhttp.send();
-}
-function getTemp() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("Temp").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "temp", true);
-  xhttp.send();
-}
-function getHum() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("Hum").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "hum", true);
-  xhttp.send();
-}
-*/
 </script>
  </body>
 </html>

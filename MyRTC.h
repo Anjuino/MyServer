@@ -9,14 +9,15 @@ void RtcSetTime () {
   Rtc.SetDateTime(compiled);                                // Установка времени
 }
 
-String RtcTime () {
+String RtcTime (bool In) {
   RtcDateTime now = Rtc.GetDateTime();
   String Time;
-  Time =  String(now.Day())    + String("-");
-  Time += String(now.Month())  + String("-");
+  Time =  String(now.Day())    + String(".");
+  Time += String(now.Month())  + String(".");
   Time += String(now.Year())   + String("~");
   Time += String(now.Hour())   + String("-");
   Time += String(now.Minute());
+  if (In) Time += String("-") + String(now.Second());
   //Serial.println (Time);
   return Time;
 }

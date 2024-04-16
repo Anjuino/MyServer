@@ -14,28 +14,28 @@ bool APInit (void) {
 }
 
 void handleStartPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("index.html"));
+  server.send(200, "text/html", ReadSdCardFile("/", "index.html"));
 }
 
 void handleInfoPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("info.html"));
+  server.send(200, "text/html", ReadSdCardFile("/","info.html"));
 }
 
 void handleDiaryPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("diary.html"));
+  server.send(200, "text/html", ReadSdCardFile("/","diary.html"));
 }
 
 void handleWriteNotePage(void) {
-  server.send(200, "text/html", ReadSdCardFile("writeNote.html"));
+  server.send(200, "text/html", ReadSdCardFile("/","writeNote.html"));
 }
 
 void handleCSS(void) {
-  server.send(200, "text/css", ReadSdCardFile("styles.css"));
+  server.send(200, "text/css", ReadSdCardFile("/","styles.css"));
 }
 
 void sensor_data(void)  // 
 {
- String time = RtcTime ();
+ String time = RtcTime (false);
  server.send(200, "text/plane", time);
 }
 
@@ -55,27 +55,40 @@ void sensor_dataPres(void)  //
  server.send(200, "text/plane", Pres);
 }
 
+void dataDiary(void)  // 
+{
+ String CountNote = printDirectory(SD.open("/Diary"));
+ server.send(200, "text/plane", CountNote);
+}
+
 void writeDiary(void)   // Делаем запись полученных данных на карту памяти
 {
  String Dat = server.arg ("Note");
  WriteSdCardFile (Dat);
- //server.send(200, "text/plane", time);
+}
+
+void readNote(void)   // Чтение файла и отправка
+{
+ String Dat = server.arg ("Note");
+ String Note = ReadSdCardFile ("Diary/", Dat);
+ server.send(200, "text/plane", Note);
 }
 
 void ServerStart(void) {
-  server.on("/", handleStartPage);                     // Страница при первом запуске
-  server.on("/index.html", handleStartPage);           // Главная стрница
-  server.on("/diary.html", handleDiaryPage);           // Дневник
-  server.on("/info.html", handleInfoPage);             // Датчики
-  server.on("/writeNote.html", handleWriteNotePage);   // Запись в дневник
-  server.on("/styles.css", handleCSS);                 // Стили
+  server.on ("/", handleStartPage);                     // Страница при первом запуске
+  server.on ("/index.html", handleStartPage);           // Главная стрница
+  server.on ("/diary.html", handleDiaryPage);           // Дневник
+  server.on ("/info.html", handleInfoPage);             // Датчики
+  server.on ("/writeNote.html", handleWriteNotePage);   // Запись в дневник
+  server.on ("/styles.css", handleCSS);                 // Стили
 
-  server.on("/read", sensor_data);            // Отправка показаний датчиков
-  server.on("/temp", sensor_dataTemp);        // Отправка показаний датчиков  
-  server.on("/hum", sensor_dataHum);          // Отправка показаний датчиков  
-  server.on("/pres", sensor_dataPres);        // Отправка показаний датчиков    
+  server.on ("/read", sensor_data);            // Отправка показаний датчиков
+  server.on ("/temp", sensor_dataTemp);        // Отправка показаний датчиков
+  server.on ("/hum", sensor_dataHum);          // Отправка показаний датчиков  
+  server.on ("/pres", sensor_dataPres);        // Отправка показаний датчиков    
+  server.on ("/writeNote", writeDiary);        // Прием записи в дневник
+  server.on ("/note", dataDiary);              // Вывод содержимого каталога
+  server.on ("/readNote", readNote);           // Чтение файла
 
-  server.on("/writeNote", writeDiary);        // Прием записи в дневник
-
-  server.begin();
+  server.begin ();
 }

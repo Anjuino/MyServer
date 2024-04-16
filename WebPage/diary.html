@@ -11,10 +11,42 @@
 </ul>
 <h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
-  
-<script>
-
-</script>
+    <hr><span id="Note"></span>
+    <div id="output"></div>
+    <form id="myForm">
+  <button type="button" onclick="parseString()">Вывести данные</button>
+</form>
   </div>
+
+  <script>
+    var i = 2;
+    function parseString() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var inputString = this.responseText;
+          var words = inputString.split(' ');
+          var outputDiv = document.getElementById("output");
+          words.forEach(function(word) {
+            outputDiv.innerHTML += '<a href="#" onclick="ReadNote('+ (i++) +')">' + word + '</a><hr id = "hr">';
+          });
+        }
+      };
+      xhttp.open("GET", "note", true);
+      xhttp.send();
+    }
+    
+    function ReadNote(num) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("Note").innerHTML =
+          this.responseText;
+        }
+      };
+      xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText, true);
+      xhttp.send();
+    }
+  </script>
  </body>
 </html>
