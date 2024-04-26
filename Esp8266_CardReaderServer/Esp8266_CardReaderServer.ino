@@ -6,27 +6,27 @@
  
 ADC_MODE(ADC_VCC);
 
-void setup() {
-  Serial.begin(115200);
+void setup () {
+  Serial.begin (115200);
   Wire.begin(); 
 
-  if (CardReaderInit ()) Serial.println("Init SD Card Done");
-  else Serial.println("Init SD Card false");
+  if (CardReaderInit ()) Serial.println ("Init SD Card Done");
+  else Serial.println ("Init SD Card false");
 
-  if (APInit ()) Serial.println("Init AP Done");
-  else Serial.println("Init AP false");
+  if (APInit ()) Serial.println ("Init AP Done");
+  else Serial.println ("Init AP false");
 
-  if (BmeInit()) Serial.println("Init BME280 Done");
-  else Serial.println("Init BME280 false");
+  if (BmeInit()) Serial.println ("Init BME280 Done");
+  else Serial.println ("Init BME280 false");
 
-  Rtc.Begin();
+  Rtc.Begin ();
   //RtcSetTime (); // Установить время
 
   ServerStart ();
 }
 
 void loop() {
-  server.handleClient();
+  server.handleClient ();
   //printDirectory(SD.open("/Diary"));
   //delay (10000);
   //RtcTime ();

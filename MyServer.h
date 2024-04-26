@@ -6,75 +6,80 @@
 #define HUM  2
 #define PRES 3
 
-ESP8266WebServer server(80);
+ESP8266WebServer server (80);
 
 bool APInit (void) {
     bool result;
-    return result = WiFi.softAP("ESP8266", "Mesn72154_");
+    return result = WiFi.softAP ("ESP8266", "Mesn72154_");
 }
 
-void handleStartPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("/", "index.html"));
+void handleStartPage (void) {
+  server.send (200, "text/html", ReadSdCardFile ("/", "index.html"));
 }
 
-void handleInfoPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("/","info.html"));
+void handleInfoPage (void) {
+  server.send (200, "text/html", ReadSdCardFile ("/","info.html"));
 }
 
-void handleDiaryPage(void) {
-  server.send(200, "text/html", ReadSdCardFile("/","diary.html"));
+void handleDiaryPage (void) {
+  server.send (200, "text/html", ReadSdCardFile ("/","diary.html"));
 }
 
-void handleWriteNotePage(void) {
-  server.send(200, "text/html", ReadSdCardFile("/","writeNote.html"));
+void handleWriteNotePage (void) {
+  server.send (200, "text/html", ReadSdCardFile ("/","writeNote.html"));
 }
 
-void handleCSS(void) {
-  server.send(200, "text/css", ReadSdCardFile("/","styles.css"));
+void handleCSS (void) {
+  server.send (200, "text/css", ReadSdCardFile ("/","styles.css"));
 }
 
-void sensor_data(void)  // 
+void sensor_data (void)  // 
 {
- String time = RtcTime (false);
- server.send(200, "text/plane", time);
+ String time = RtcTime (false, true);
+ server.send (200, "text/plane", time);
 }
 
-void sensor_dataTemp(void)  // 
+void sensor_dataTemp (void)  // 
 {
  String Temp = GetData (TEMP);
- server.send(200, "text/plane", Temp);
+ server.send (200, "text/plane", Temp);
 }
-void sensor_dataHum(void)  // 
+void sensor_dataHum (void)  // 
 {
  String Hum = GetData (HUM);
- server.send(200, "text/plane", Hum);
+ server.send (200, "text/plane", Hum);
 }
-void sensor_dataPres(void)  // 
+void sensor_dataPres (void)  // 
 {
  String Pres = GetData (PRES);
- server.send(200, "text/plane", Pres);
+ server.send (200, "text/plane", Pres);
 }
 
-void dataDiary(void)  // 
+void dataDiary (void)  // 
 {
- String CountNote = printDirectory(SD.open("/Diary"));
- server.send(200, "text/plane", CountNote);
+ String Dat = server.arg ("Month");
+ String Folder = String ("/") + Dat;
+ String CountNote = printDirectory (SD.open (Folder));
+ server.send (200, "text/plane", CountNote);
 }
 
-void writeDiary(void)   // Делаем запись полученных данных на карту памяти
+void writeDiary (void)   // Делаем запись полученных данных на карту памяти
 {
- String Dat = server.arg ("Note");
+ String Dat = server.arg ("NoteWr");
  WriteSdCardFile (Dat);
+ server.send (200, "text/plane", "Успех записи");
 }
 
-void readNote(void)   // Чтение файла и отправка
+void readNote (void)   // Чтение файла и отправка
 {
+ String Month = server.arg ("Month");
+ String Folder = Month + String ("/");
  String Dat = server.arg ("Note");
- String Note = ReadSdCardFile ("Diary/", Dat);
- server.send(200, "text/plane", Note);
+ String Note = ReadSdCardFile (Folder, Dat);
+ server.send (200, "text/plane", Note);
 }
 
-void ServerStart(void) {
+void ServerStart (void) {
   server.on ("/", handleStartPage);                     // Страница при первом запуске
   server.on ("/index.html", handleStartPage);           // Главная стрница
   server.on ("/diary.html", handleDiaryPage);           // Дневник

@@ -4,35 +4,50 @@
   <title>Control</title>
   <link rel='stylesheet' href='styles.css'>
  </head>
- <body>
+ <body>  //onload="parseString()">
  <ul class="menu-bar">
   <li><a href="index.html">Главная</a></li>
   <li><a href="writeNote.html">Сделать запись</a></li>
 </ul>
 <h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
-    <hr><span id="Note"></span>
+    <hr><span id="Note"></span><hr>
     <div id="output"></div>
+    <select id="NumMonth">
+      <option value="1">Январь</option>
+      <option value="2">Февраль</option>
+      <option value="3">Март</option>
+      <option value="4">Апрель</option>
+      <option value="5">Май</option>
+      <option value="6">Июнь</option>
+      <option value="7">Июль</option>
+      <option value="8">Август</option>
+      <option value="9">Сентябрь</option>
+      <option value="10">Октябрь</option>
+      <option value="11">Ноябрь</option>
+      <option value="12">Декабрь</option>
+    </select>
     <form id="myForm">
-  <button type="button" onclick="parseString()">Вывести данные</button>
-</form>
+      <button type="button" onclick="GetNote()">Вывести данные</button>
+    </form>
   </div>
 
   <script>
-    var i = 2;
-    function parseString() {
+    function GetNote() {
+      var i = 2;
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           var inputString = this.responseText;
           var words = inputString.split(' ');
           var outputDiv = document.getElementById("output");
+          outputDiv.innerHTML = "";
           words.forEach(function(word) {
             outputDiv.innerHTML += '<a href="#" onclick="ReadNote('+ (i++) +')">' + word + '</a><hr id = "hr">';
           });
         }
       };
-      xhttp.open("GET", "note", true);
+      xhttp.open("GET", "note?Month=" + NumMonth.value, true);
       xhttp.send();
     }
     
@@ -44,7 +59,7 @@
           this.responseText;
         }
       };
-      xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText, true);
+      xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText + "&Month=" + NumMonth.value, true);
       xhttp.send();
     }
   </script>

@@ -68,7 +68,12 @@ a {
   margin-left: -15%;
 }
 #Note {
-  color: burlywood;
+  color: #ffb300;
+  font-family: math;
+  font-size: 50px;
+}
+#NoteWr {
+  color: #00176e;
   font-family: math;
   font-size: 50px;
 

@@ -12,7 +12,7 @@
 </ul>
 
   <div class="centerLayer">
-  <textarea id="Note"> </textarea>
+  <textarea id="NoteWr"> </textarea>
   <hr>
   <button type="button" onclick="sendData()">Записать</button>
 <script>
@@ -20,13 +20,13 @@ function sendData () {
   var xhttp = new XMLHttpRequest ();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById ("Note"). innerHTML =
+      document.getElementById ("NoteWr"). innerHTML =
       this.responseText;
     }
   };
- xhttp.open( "GET", "writeNote?Note=" + document.getElementById("Note").value, true);
+ xhttp.open( "GET", "writeNote?NoteWr=" + document.getElementById("NoteWr").value, true);
  xhttp.send ();
- document.getElementById("Note").value = ""
+ document.getElementById("NoteWr").value = ""
 }
 </script>
   </div>

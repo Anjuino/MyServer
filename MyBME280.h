@@ -6,7 +6,7 @@
 Adafruit_BME280 bme;
 
 bool BmeInit () {
-  if (bme.begin(0x76)) return true;
+  if (bme.begin (0x76)) return true;
   else                 return false;
 }
 
@@ -16,15 +16,15 @@ String GetData (int In) {
   switch (In)
   {
     case 1:
-      res = bme.readTemperature();
+      res = bme.readTemperature ();
       break;
 
     case 2:
-      res = bme.readHumidity();
+      res = bme.readHumidity ();
       break;
 
     case 3:
-      res = bme.readPressure() / 133.3;
+      res = bme.readPressure () / 133.3;
       break;
 
     default:

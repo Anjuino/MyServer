@@ -11,32 +11,33 @@ File myFile;
 /// @return Статус инициализации SD карты
 
 bool CardReaderInit (void) {
-  Serial.print("Init SD Card.");
-  if (!SD.begin(CS)) {
+  Serial.print ("Init SD Card.");
+  if (!SD.begin (CS)) {
     return false;
   }
   return true;
 }
 
-String ReadSdCardFile (String DirNameIn,String FileNameIn) {
+String ReadSdCardFile (String DirNameIn, String FileNameIn) {
   String FileName = DirNameIn + FileNameIn;
-  bool check = SD.exists(FileName);
+  bool check = SD.exists (FileName);
   if (check) {
     String buffer;
-    myFile = SD.open(FileName);                //Откроем файл
-    while (myFile.available())                 //Читаем содержимое файла
+    myFile = SD.open (FileName);                //Откроем файл
+    while (myFile.available ())                 //Читаем содержимое файла
     {
-      buffer += myFile.readStringUntil('\n');  //Считываем с карты все данные в строку до символа окончания.
+      buffer += myFile.readStringUntil ('\n');  //Считываем с карты все данные в строку до символа окончания.
     }
     //Serial.println(buffer);                  //Для отладки отправляем по UART все что прочитали с карты.
-    myFile.close();                            //Закроем файл
+    myFile.close ();                            //Закроем файл
     return buffer;
   } 
   return "File Not exist";
 }
 
 void WriteSdCardFile (String Data) {
-  String FileName = String ("Diary/") + RtcTime(true);
+  String Folder = RtcTime(false, false) + "/";
+  String FileName = String (Folder) + RtcTime(true, true);
   myFile = SD.open(FileName, FILE_WRITE);
   bool check = SD.exists(FileName);
   if (check) {
