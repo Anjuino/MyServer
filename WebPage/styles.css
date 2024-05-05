@@ -41,10 +41,28 @@ body {
 ul { 
   padding-inline-start: 0; 
 }
-
+#label {
+  font-size: 47px;
+  margin-left: 2%;
+}
+#mybutton{
+  font-size: 30px;
+  margin-left: 0%;
+}
+#NumMonth {
+  color: #ffffff;
+  background-color: #00123d;
+  font-size: 40px;
+  margin-left: 30%;
+}
 a {
   color: inherit;
   text-decoration: none
+}
+.up {
+  text-align: center;
+  font-size: 35px;
+  color: white;
 }
 .centerLayer {
   color: white;
@@ -79,6 +97,7 @@ a {
 
 }
 .menu-bar {
+  margin-top: 0%;
   border: 5px solid #ffffff;
   border-radius: 15px;
   font-size: 30px;

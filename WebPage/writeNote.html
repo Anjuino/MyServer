@@ -4,7 +4,10 @@
   <title>Control</title>
   <link rel='stylesheet' href='styles.css'>
  </head>
- <body>
+ <body onload="onload()">
+  <div class = "up">
+  <span>Время: </span> <span id="time"> </span> <span>Заряд: </span> <span id="power"></span> <span> %</span> <hr>
+  </div>
  <ul class="menu-bar">
   <li><a href="index.html">Главная</a></li>
   <li><a href="info.html">Информация</a></li>
@@ -12,10 +15,37 @@
 </ul>
 
   <div class="centerLayer">
+  <label for="NoteWr" id = "label">Заметка</label>
   <textarea id="NoteWr"> </textarea>
   <hr>
   <button type="button" onclick="sendData()">Записать</button>
 <script>
+function onload () {
+  GetTime();
+  GetPower();
+}
+setInterval(function() 
+{
+  GetTime();
+}, 20000); 
+
+setInterval(function() 
+{
+  GetPower();
+}, 90000); 
+
+function GetTime () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("time").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "readtime", true);
+  xhttp.send();
+}
+
 function sendData () {
   var xhttp = new XMLHttpRequest ();
   xhttp.onreadystatechange = function () {
@@ -27,6 +57,18 @@ function sendData () {
  xhttp.open( "GET", "writeNote?NoteWr=" + document.getElementById("NoteWr").value, true);
  xhttp.send ();
  document.getElementById("NoteWr").value = ""
+}
+
+function GetPower () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("power").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "readAdc", true);
+  xhttp.send();
 }
 </script>
   </div>

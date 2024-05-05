@@ -4,18 +4,58 @@
   <title>Control</title>
   <link rel='stylesheet' href='styles.css'>
  </head>
- <body>
+ <body onload="onload()">
+  <div class = "up">
+  <span>Время: </span> <span id="time"> </span> <span>Заряд: </span> <span id="power"> </span> <span> %</span> <hr>
+  </div>
  <ul class="menu-bar">
-
   <li><a href="diary.html">Дневник</a></li>
   <li><a href="info.html">Информация</a></li>
-  <li><a href="#">Что-то еще</a></li>
+  <li><a href="settings.html">Настройки</a></li>
 </ul>
-<h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
     Будем также считать, что сила даёт большую проекцию на оси, чем газообразный 
     центр сил, что обусловлено существованием циклического интеграла у второго 
     уравнения системы уравнений малых колебаний.
   </div>
+  <script>
+  function onload () {
+    GetTime();
+    GetPower();
+  }
+  setInterval(function() 
+  {
+    GetTime();
+  }, 20000); 
+
+  setInterval(function() 
+  {
+    GetPower();
+  }, 90000); 
+
+  function GetTime () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("time").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", "readtime", true);
+    xhttp.send();
+  }
+
+  function GetPower () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("power").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", "readAdc", true);
+    xhttp.send();
+  }
+  </script>
  </body>
 </html>

@@ -4,16 +4,19 @@
   <title>Control</title>
   <link rel='stylesheet' href='styles.css'>
  </head>
- <body>  //onload="parseString()">
+ <body onload="onload()">
+  <div class = "up">
+  <span>Время: </span> <span id="time"> </span> <span>Заряд: </span> <span id="power"></span> <span> %</span> <hr>
+  </div>
  <ul class="menu-bar">
   <li><a href="index.html">Главная</a></li>
   <li><a href="writeNote.html">Сделать запись</a></li>
 </ul>
-<h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
     <hr><span id="Note"></span><hr>
     <div id="output"></div>
-    <select id="NumMonth">
+    <form id="myForm">
+	<select id="NumMonth">
       <option value="1">Январь</option>
       <option value="2">Февраль</option>
       <option value="3">Март</option>
@@ -27,12 +30,17 @@
       <option value="11">Ноябрь</option>
       <option value="12">Декабрь</option>
     </select>
-    <form id="myForm">
       <button type="button" onclick="GetNote()">Вывести данные</button>
     </form>
   </div>
 
   <script>
+
+    function onload () {
+      GetTime();
+      GetPower();
+    }
+    
     function GetNote() {
       var i = 2;
       var xhttp = new XMLHttpRequest();
@@ -62,6 +70,40 @@
       xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText + "&Month=" + NumMonth.value, true);
       xhttp.send();
     }
+
+    setInterval(function() 
+    {
+      GetTime();
+    }, 20000); 
+
+    setInterval(function() 
+    {
+     GetPower();
+    }, 90000); 
+
+  function GetTime () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("time").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", "readtime", true);
+    xhttp.send();
+  }
+
+  function GetPower () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("power").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", "readAdc", true);
+    xhttp.send();
+  }
   </script>
  </body>
 </html>

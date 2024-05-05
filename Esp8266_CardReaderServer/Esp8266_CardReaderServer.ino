@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include <MyIna219.h>
 #include <MyBME280.h>
 #include <MyRTC.h>
 #include <CardReader.h>
@@ -19,14 +20,17 @@ void setup () {
   if (BmeInit()) Serial.println ("Init BME280 Done");
   else Serial.println ("Init BME280 false");
 
+  if (InaInit()) Serial.println ("Init Ina219 Done");
+  else Serial.println ("Init Ina219 false");
+
   Rtc.Begin ();
-  //RtcSetTime (); // Установить время
 
   ServerStart ();
 }
 
 void loop() {
   server.handleClient ();
+  
   //printDirectory(SD.open("/Diary"));
   //delay (10000);
   //RtcTime ();

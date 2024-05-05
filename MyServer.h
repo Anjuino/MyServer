@@ -29,6 +29,10 @@ void handleWriteNotePage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/","writeNote.html"));
 }
 
+void handleSettingsPage (void) {
+  server.send (200, "text/html", ReadSdCardFile ("/","settings.html"));
+}
+
 void handleCSS (void) {
   server.send (200, "text/css", ReadSdCardFile ("/","styles.css"));
 }
@@ -55,6 +59,24 @@ void sensor_dataPres (void)  //
  server.send (200, "text/plane", Pres);
 }
 
+void sensor_dataAdc (void)  // 
+{
+ String Adc = GetAdc ();
+ server.send (200, "text/plane", Adc);
+}
+
+void sensor_datacurent (void)  // 
+{
+ String curent = GetCurrent ();
+ server.send (200, "text/plane", curent);
+}
+
+void sensor_datavolt (void)  // 
+{
+ int volt = ESP.getVcc();
+ server.send (200, "text/plane", String(volt));
+}
+
 void dataDiary (void)  // 
 {
  String Dat = server.arg ("Month");
@@ -79,17 +101,36 @@ void readNote (void)   // Чтение файла и отправка
  server.send (200, "text/plane", Note);
 }
 
+void settime (void)
+{
+ String Syear = server.arg ("year");
+ String Smonth = server.arg ("month");
+ String Sday = server.arg ("day");
+
+ String Shours = server.arg ("hours");
+ String Sminutes = server.arg ("minutes");
+ String Sseconds = server.arg ("seconds");
+
+ RtcSetTimeServer (Syear.toInt(), Smonth.toInt(),Sday.toInt(),Shours.toInt(),Sminutes.toInt(),Sseconds.toInt());
+ server.send (200, "text/plane", "Время установлено");
+}
+
 void ServerStart (void) {
   server.on ("/", handleStartPage);                     // Страница при первом запуске
   server.on ("/index.html", handleStartPage);           // Главная стрница
   server.on ("/diary.html", handleDiaryPage);           // Дневник
   server.on ("/info.html", handleInfoPage);             // Датчики
   server.on ("/writeNote.html", handleWriteNotePage);   // Запись в дневник
+  server.on ("/settings.html", handleSettingsPage);           // Главная стрница
   server.on ("/styles.css", handleCSS);                 // Стили
-
-  server.on ("/read", sensor_data);            // Отправка показаний датчиков
+  
+  server.on ("/sendtime", settime);
+  server.on ("/readtime", sensor_data);        // Отправка показаний датчиков
+  server.on ("/readAdc", sensor_dataAdc);      // Отправка показаний датчиков
   server.on ("/temp", sensor_dataTemp);        // Отправка показаний датчиков
-  server.on ("/hum", sensor_dataHum);          // Отправка показаний датчиков  
+  server.on ("/hum", sensor_dataHum);          // Отправка показаний датчиков
+  server.on ("/curent", sensor_datacurent);    // Отправка показаний датчиков
+  server.on ("/adc", sensor_datavolt);         // Отправка показаний датчиков    
   server.on ("/pres", sensor_dataPres);        // Отправка показаний датчиков    
   server.on ("/writeNote", writeDiary);        // Прием записи в дневник
   server.on ("/note", dataDiary);              // Вывод содержимого каталога

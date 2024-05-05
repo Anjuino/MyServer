@@ -4,27 +4,45 @@
   <title>Control</title>
   <link rel='stylesheet' href='styles.css'>
  </head>
- <body>
+ <body onload="onload()">
+  <div class = "up">
+  <span>Время: </span> <span id="time"> </span> <span>Заряд: </span> <span id="power"></span> <span> %</span> <hr>
+  </div>
  <ul class="menu-bar">
   <li><a href="index.html">Главная</a></li>
   <li><a href="diary.html">Дневник</a></li>
-  <li><a href="#">Что-то еще</a></li>
+  <li><a href="settings.html">Настройки</a></li>
 </ul>
-<h1 align="center">ESP8266 Web Server</h1>
   <div class="centerLayer">
-    <span>Время: </span> <span id="time"></span>                                     <br>
-    <span>Температура: </span> <span id="Temp"></span> <span> °C</span>              <br>
-    <span >Влажность: </span> <span id="Hum"></span>   <span> %</span>               <br>
-    <span >Давление: </span> <span id="Pres"></span>   <span> мм.рт.ст.</span>       <br>
+    <span>Температура: </span> <span id="Temp"></span> <span> °C</span>             <br>
+    <span>Влажность: </span> <span id="Hum"></span>   <span> %</span>               <br>
+    <span>Давление: </span> <span id="Pres"></span>   <span> мм.рт.ст.</span>       <br>
+    <span>Ток: </span> <span id="Curent"></span>   <span> mA</span>                 <br>
+    <span>Напряжение: </span> <span id="Adc"></span>   <span> mV</span>                 <br>
   </div>
   <script>
+  function onload () {
+    GetTime();
+    GetPower();
+  }
 setInterval(function() 
-{
-  getData ("time", "read");
+{ 
+  getData ("Adc", "adc");  
   getData ("Temp", "temp");
   getData ("Hum" ,  "hum");
   getData ("Pres", "pres");
+  getData ("Curent", "curent");
 }, 2000); 
+
+setInterval(function() 
+{
+  GetTime();
+}, 20000); 
+
+setInterval(function() 
+{
+  GetPower();
+}, 90000); 
 
 function getData(In1, In2) {
   var xhttp = new XMLHttpRequest();
@@ -35,6 +53,30 @@ function getData(In1, In2) {
     }
   };
   xhttp.open("GET", In2, true);
+  xhttp.send();
+}
+
+function GetTime () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("time").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "readtime", true);
+  xhttp.send();
+}
+
+function GetPower () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("power").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "readAdc", true);
   xhttp.send();
 }
 </script>

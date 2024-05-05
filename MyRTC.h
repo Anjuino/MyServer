@@ -4,9 +4,15 @@
 ThreeWire myWire (0,3,16);                                   // Указываем вывода IO, SCLK, CE
 RtcDS1302<ThreeWire> Rtc (myWire);
 
+/*
 void RtcSetTime () {
   RtcDateTime compiled = RtcDateTime (__DATE__, __TIME__);   // Копирование даты и времени в compiled
   Rtc.SetDateTime (compiled);                                // Установка времени
+}
+*/
+void RtcSetTimeServer (int Year, int Month, int Day, int Hour, int Minute, int Second) {
+  RtcDateTime compiled = RtcDateTime (Year, Month, Day, Hour, Minute, Second);   // Копирование даты и времени в compiled
+  Rtc.SetDateTime (compiled);                                    // Установка времени
 }
 
 String RtcTime (bool In1, bool In2) {
