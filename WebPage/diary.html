@@ -42,6 +42,8 @@
     }
     
     function GetNote() {
+      var outputNote = document.getElementById("Note");
+      outputNote.innerHTML = "";
       var i = 2;
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
@@ -64,7 +66,7 @@
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           document.getElementById("Note").innerHTML =
-          this.responseText;
+          this.responseText + '<br> <button class = "delbutton" type="button" onclick="DelNote('+ num +')"Удалить запись</button>';
         }
       };
       xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText + "&Month=" + NumMonth.value, true);

@@ -8,33 +8,68 @@
 
 ESP8266WebServer server (80);
 
-bool APInit (void) {
-    bool result;
-    return result = WiFi.softAP ("ESP8266", "Mesn72154_");
+bool STAInit (void) { // Подключение к роутеру
+  bool result;
+  return result = WiFi.begin ("TP-Link_467D", "66484608");
+}
+
+bool APInit (void) { // Точка доступа
+  bool result;
+  return result = WiFi.softAP ("ESP8266", "Mesn72154_");
 }
 
 void handleStartPage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/", "index.html"));
+
+  if (ReadSdCardFile ("/", "index.html") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void handleInfoPage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/","info.html"));
+
+  if (ReadSdCardFile ("/", "info.html") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void handleDiaryPage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/","diary.html"));
+
+  if (ReadSdCardFile ("/","diary.html") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void handleWriteNotePage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/","writeNote.html"));
+
+  if (ReadSdCardFile ("/","writeNote.html") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void handleSettingsPage (void) {
   server.send (200, "text/html", ReadSdCardFile ("/","settings.html"));
+
+  if (ReadSdCardFile ("/","settings.html") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void handleCSS (void) {
   server.send (200, "text/css", ReadSdCardFile ("/","styles.css"));
+
+  if (ReadSdCardFile ("/","styles.css") == "File Not exist") {
+    if (CardReaderInit ()) server.send (200, "text/html", "CardReaderInit");
+    else server.send (200, "text/html", "CardReaderFalse");
+  }
 }
 
 void sensor_data (void)  // 
@@ -101,6 +136,12 @@ void readNote (void)   // Чтение файла и отправка
  server.send (200, "text/plane", Note);
 }
 
+void sdcard (void)   // Чтение файла и отправка
+{
+ String Size = String (GetInfoCard ());
+ server.send (200, "text/plane", Size);
+}
+
 void settime (void)
 {
  String Syear = server.arg ("year");
@@ -130,7 +171,8 @@ void ServerStart (void) {
   server.on ("/temp", sensor_dataTemp);        // Отправка показаний датчиков
   server.on ("/hum", sensor_dataHum);          // Отправка показаний датчиков
   server.on ("/curent", sensor_datacurent);    // Отправка показаний датчиков
-  server.on ("/adc", sensor_datavolt);         // Отправка показаний датчиков    
+  server.on ("/adc", sensor_datavolt);         // Отправка показаний датчиков
+  server.on ("/sdsize", sdcard);         // Отправка показаний датчиков     
   server.on ("/pres", sensor_dataPres);        // Отправка показаний датчиков    
   server.on ("/writeNote", writeDiary);        // Прием записи в дневник
   server.on ("/note", dataDiary);              // Вывод содержимого каталога

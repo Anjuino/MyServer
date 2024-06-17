@@ -35,6 +35,15 @@ String ReadSdCardFile (String DirNameIn, String FileNameIn) {
   return "File Not exist";
 }
 
+String RemoveSdCardFile (String DirNameIn, String FileNameIn) {
+  String FileName = DirNameIn + FileNameIn;
+  bool check = SD.exists (FileName);
+  if (check) {
+    if (SD.remove (FileName)) return "File delete";
+  } 
+  return "File not delete";
+}
+
 void WriteSdCardFile (String Data) {
   String Folder = RtcTime(false, false) + "/";
   String FileName = String (Folder) + RtcTime(true, true);

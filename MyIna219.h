@@ -16,7 +16,9 @@ String GetAdc (void)
 
   if (voltagepercent > 100) voltagepercent = 100;
 
-  if (voltagepercent < 2) voltagepercent = 1;
+  if (voltagepercent < 2 && voltagepercent >= 0) voltagepercent = 1;
+
+  if (voltagepercent < 0) voltagepercent = 100;
   
   return String (voltagepercent);
 }

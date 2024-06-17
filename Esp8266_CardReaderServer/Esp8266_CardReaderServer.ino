@@ -14,8 +14,16 @@ void setup () {
   if (CardReaderInit ()) Serial.println ("Init SD Card Done");
   else Serial.println ("Init SD Card false");
 
-  if (APInit ()) Serial.println ("Init AP Done");
-  else Serial.println ("Init AP false");
+  if (STAInit()) {
+    Serial.println ("Init STA Done");
+    Serial.println(WiFi.localIP());
+  }
+  else {
+    Serial.println ("Init STA false");
+    if (APInit ()) Serial.println ("Init AP Done");
+    else Serial.println ("Init AP false");
+  }
+  
 
   if (BmeInit()) Serial.println ("Init BME280 Done");
   else Serial.println ("Init BME280 false");
@@ -30,11 +38,4 @@ void setup () {
 
 void loop() {
   server.handleClient ();
-  
-  //printDirectory(SD.open("/Diary"));
-  //delay (10000);
-  //RtcTime ();
-  //delay (10000);                                  
-  //uint CpuFreg = ESP.getCpuFreqMHz();
-  //int Vcc = ESP.getVcc(); 
 }
