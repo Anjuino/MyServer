@@ -136,10 +136,13 @@ void readNote (void)   // Чтение файла и отправка
  server.send (200, "text/plane", Note);
 }
 
-void sdcard (void)   // Чтение файла и отправка
+void delNote (void)  
 {
- String Size = String (GetInfoCard ());
- server.send (200, "text/plane", Size);
+ String Month = server.arg ("Month");
+ String Folder = Month + String ("/");
+ String Dat = server.arg ("Note");
+ String Note = RemoveSdCardFile (Folder, Dat);
+ server.send (200, "text/plane", Note);
 }
 
 void settime (void)
@@ -164,19 +167,18 @@ void ServerStart (void) {
   server.on ("/writeNote.html", handleWriteNotePage);   // Запись в дневник
   server.on ("/settings.html", handleSettingsPage);           // Главная стрница
   server.on ("/styles.css", handleCSS);                 // Стили
-  
   server.on ("/sendtime", settime);
   server.on ("/readtime", sensor_data);        // Отправка показаний датчиков
   server.on ("/readAdc", sensor_dataAdc);      // Отправка показаний датчиков
   server.on ("/temp", sensor_dataTemp);        // Отправка показаний датчиков
   server.on ("/hum", sensor_dataHum);          // Отправка показаний датчиков
   server.on ("/curent", sensor_datacurent);    // Отправка показаний датчиков
-  server.on ("/adc", sensor_datavolt);         // Отправка показаний датчиков
-  server.on ("/sdsize", sdcard);         // Отправка показаний датчиков     
+  server.on ("/adc", sensor_datavolt);         // Отправка показаний датчиков    
   server.on ("/pres", sensor_dataPres);        // Отправка показаний датчиков    
   server.on ("/writeNote", writeDiary);        // Прием записи в дневник
   server.on ("/note", dataDiary);              // Вывод содержимого каталога
   server.on ("/readNote", readNote);           // Чтение файла
+  server.on ("/DelNote", delNote);           // Чтение файла
 
   server.begin ();
 }

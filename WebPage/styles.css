@@ -46,7 +46,9 @@ ul {
   margin-left: 2%;
 }
 .delbutton{
-  font-size: 30px;
+  margin-top: 10%;
+  color: red;
+  font-size: 35px;
   margin-left: 0%;
 }
 #NumMonth {

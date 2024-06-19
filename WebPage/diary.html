@@ -66,10 +66,21 @@
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           document.getElementById("Note").innerHTML =
-          this.responseText + '<br> <button class = "delbutton" type="button" onclick="DelNote('+ num +')"Удалить запись</button>';
+          this.responseText + '<br> <button class = "delbutton" type="button" onclick="DelNote('+ num +')">Удалить запись</button>';
         }
       };
       xhttp.open("GET", "readNote?Note=" + document.getElementsByTagName("a")[num].innerText + "&Month=" + NumMonth.value, true);
+      xhttp.send();
+    }
+    
+    function DelNote(num) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          GetNote();
+        }
+      };
+      xhttp.open("GET", "DelNote?Note=" + document.getElementsByTagName("a")[num].innerText + "&Month=" + NumMonth.value, true);
       xhttp.send();
     }
 
